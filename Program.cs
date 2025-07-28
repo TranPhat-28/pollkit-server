@@ -1,11 +1,17 @@
 global using pollkit_server.Models;
 using pollkit_server.Services.UserService;
 using dotenv.net;
+using pollkit_server.Data;
+using Microsoft.EntityFrameworkCore;
 
 // Load .env
 DotEnv.Load();
 var environmentVariables = DotEnv.Read();
 var builder = WebApplication.CreateBuilder(args);
+
+// Add the DbContext
+builder.Services.AddDbContext<DataContext>(options
+    => options.UseNpgsql(environmentVariables["DB_CONNECTION"]));
 
 // Add services to the container.
 builder.Services.AddControllers();

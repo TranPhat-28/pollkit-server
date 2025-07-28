@@ -37,5 +37,25 @@ namespace pollkit_server.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<int>>> CreateMockUser()
+        {
+            try
+            {
+                var result = await _userService.CreateMockUser();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                string controllerName = ControllerContext.ActionDescriptor.ControllerName;
+                string methodName = ControllerContext.ActionDescriptor.ActionName;
+
+                Console.WriteLine($"[Error] Error on {controllerName} at {methodName}");
+                Console.WriteLine(e);
+
+                return StatusCode(500);
+            }
+        }
     }
 }
